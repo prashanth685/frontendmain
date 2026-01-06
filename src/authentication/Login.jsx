@@ -3,6 +3,8 @@ import LoginLeft from "./common/Loginleft"
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import apiClient from '../api/apiClient'
+import { setUserDetails } from '../redux/slices/UserDetailsSlice'
+import './Login.css'
 
 
 const Login = () => {
