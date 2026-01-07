@@ -93,7 +93,7 @@ const Login = () => {
   return (
     <div className='row' id='login'>
         <LoginLeft/>
-        <div className="col-12 col-md-6 login-right">
+      <div className="col-12 col-md-6 login_right">
             <div className="two_step_form">
                 <div className="login_dots_container">
 
@@ -103,11 +103,20 @@ const Login = () => {
                 </h2>
                 <section className="form_fields_conatiner">
                     <>
-                    <div className="login_inputConatiner">
-                        <label htmlFor="email">email</label>
-                        <input type="text" placeholder='enter your email' />
-                        {}
-                    </div>
+                                  <div className="login_inputContainer">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  value={data.email}
+                  id="email"
+                  name="email"
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                />
+                {error?.email?.length > 0 && (
+                  <em className="error">{error.email}</em>
+                )}
+              </div>
                     <div className="login_inputContainer">
                         <label htmlFor="role">Role</label>
                         <select name="role" id="role">
@@ -128,20 +137,23 @@ const Login = () => {
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <div className="form-check"></div>
                         <div>
-                            <a href="/forgotpassword">
+                            <a href="/forgotpassword" style={{textDecoration:"none",color:"#345053"}}>
                             Forgot Password?
                             </a>
                         </div>
                     </div>
                     </>
-                    <button>
+                    <button  className="sign"
+              onClick={handleSubmit}
+              style={{ width: "100%" }}>
                         login
                     </button>
                 </section>
                 <hr className='mt-4'/>
-                <div className="login_conatct_support">
-                    <p>Have Any Problems?</p>
-                    <span>contact support</span>
+                <div className="login_contact_support">
+                    <p>Have Any Problems?
+                <span                 className="contact_support_link"
+                onClick={() => navigate("/contactSupport")}>contact support</span></p>
                 </div>
             </div>
         </div>
