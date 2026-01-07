@@ -1,6 +1,7 @@
 import React from 'react'
 import {Route,Routes} from 'react-router-dom'
 import Login from "../authentication/Login"
+import ContactSupport from '../authentication/ContactSupport'
 
 
 const RoutersDom = () => {
@@ -8,6 +9,7 @@ const RoutersDom = () => {
     <>
     <Routes>
         <Route path='/' element={<Login/>}/>
+        <Route path='/contactSupoort' element={<ContactSupport/>}/>
     </Routes>
     </>
   )

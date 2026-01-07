@@ -123,7 +123,7 @@ const Login = () => {
                             <option value="">Select</option>
                             <option value="admin">Admin</option>
                             <option value="manager">Manger</option>
-                            <option value="employee">user</option>
+                            <option value="employee">User</option>
                         </select>
                         {}
                     </div>
