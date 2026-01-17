@@ -1,5 +1,6 @@
 import React from 'react'
-import loginleft from './login_left.png'
+// import loginleft from './login_left.png'
+import loginleft from './sarayu.png'
 import './Loginleft.css'
 
 const Loginleft = () => {
