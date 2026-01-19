@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import apiClient from "../api/apiClient";
 import { setUserDetails } from "../redux/slices/UserDetailsSlice";
 import "./Login.css";
+import axios from "axios";
 
 const Login = () => {
   const [count, setCount] = useState(1);
@@ -59,30 +60,40 @@ const Login = () => {
     }
   };
 
-  const handletoSubmit = (e) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
   const handleSubmit = async () => {
-    if (data?.password?.length < 8) {
-      setError({
-        ...error,
-        password: "Password must be at least 8 characters",
-      });
-    } else {
-      try {
-        const res = await apiClient.post(`/auth/${role}/login`, data);
-        localStorage.setItem("token", res?.data?.token);
-        dispatch(setUserDetails(res?.data));
-        {
-          role === "admin"
-            ? (window.location = "/dashboard/dashboard")
-            : (window.location = "/allusers/dashboard");
-        }
-      } catch (error) {
-        setLoginerror(error?.response?.data?.error || "Login failed");
-      }
+    let errors = {
+      email: "",
+      password: "",
+      role: "",
+    };
+
+    if (!/^\S+@\S+\.\S+$/.test(data.email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (!role) {
+      errors.role = "Please select a role";
+    }
+
+    if (data.password.length < 8) {
+      errors.password = "Password must be at least 8 characters";
+    }
+
+    setError(errors);
+
+    // stop submission if any error exists
+    if (errors.email || errors.password || errors.role) return;
+
+    try {
+      const res = await apiClient.post(`/auth/${role}/login`, data);
+      localStorage.setItem("token", res.data.token);
+      dispatch(setUserDetails(res.data));
+
+      role === "admin"
+        ? (window.location = "/dashboard/dashboard")
+        : (window.location = "/allusers/dashboard");
+    } catch (err) {
+      setLoginerror(err?.response?.data?.error || "Login failed");
     }
   };
 
@@ -111,25 +122,32 @@ const Login = () => {
               </div>
               <div className="login_inputContainer">
                 <label htmlFor="role">Role</label>
-                <select name="role" id="role">
+                <select
+                  name="role"
+                  id="role"
+                  value={role}
+                  onChange={handleRoleChange}
+                >
                   <option value="">Select</option>
                   <option value="admin">Admin</option>
-                  <option value="manager">Manger</option>
+                  <option value="manager">Manager</option>
                   <option value="employee">User</option>
                 </select>
-                {error?.role?.length > 0 && (
-                  <em className="error">{error.role}</em>
-                )}
+                {error?.role && <em className="error">{error.role}</em>}
               </div>
-            </>
-            <>
+
               <div className="login_inputContainer">
                 <label htmlFor="password">Password</label>
-                <input type="text" placeholder="enter your password" />
-                {error?.password?.length > 0 && (
-                  <em className="error">{error.password}</em>
-                )}
+                <input
+                  type="password"
+                  name="password"
+                  value={data.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                />
+                {error?.password && <em className="error">{error.password}</em>}
               </div>
+
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="form-check"></div>
                 <div>
@@ -156,7 +174,7 @@ const Login = () => {
               Have Any Problems?
               <span
                 className="contact_support_link"
-                onClick={() => navigate("/contactSupport")}
+                onClick={() => navigate("/contactSupoort")}
               >
                 contact support
               </span>
